@@ -1,36 +1,36 @@
-using kOS.Safe.Encapsulation;
-using kOS.Safe.Encapsulation.Suffixes;
-using kOS.Suffixed;
-using kOS.Suffixed.Part;
-using System;
-using System.Linq;
-using System.Reflection;
-using FinePrint.Utilities;
 using kOS;
 using kOS.AddOns;
+using kOS.Safe.Encapsulation;
+using kOS.Safe.Encapsulation.Suffixes;
+using kOS.Safe.Utilities;
+using kOS.Suffixed;
+using kOS.Suffixed.Part;
 using RealAntennas;
 using RealAntennas.Targeting;
 using UnityEngine;
 
-
 namespace KOS_RA.Addon
 {
     [kOSAddon("RA")]
-    [kOS.Safe.Utilities.KOSNomenclature("RAAddon")]
-    public class Addon: kOS.Suffixed.Addon
+    [KOSNomenclature("RAAddon")]
+    public class Addon : kOS.Suffixed.Addon
     {
         public Addon(SharedObjects shared) : base(shared)
         {
-            InitializeSuffixes();    
+            InitializeSuffixes();
         }
 
         private void InitializeSuffixes()
         {
-            AddSuffix("HASCONNECTION", new OneArgsSuffix<BooleanValue, VesselTarget>(RAHasConnection, "Check if given vessel have a connection"));
-            AddSuffix("SETTARGETBODY", new TwoArgsSuffix<PartValue, StringValue>(RASetTargetBody, "Set an real antenna target"));
-            AddSuffix("SETTARGETVESSEL", new TwoArgsSuffix<PartValue, VesselTarget>(RASetTargetVessel, "Set an real antenna target"));
+            AddSuffix("HASCONNECTION",
+                new OneArgsSuffix<BooleanValue, VesselTarget>(RAHasConnection,
+                    "Check if given vessel have a connection"));
+            AddSuffix("SETTARGETBODY",
+                new TwoArgsSuffix<PartValue, StringValue>(RASetTargetBody, "Set an real antenna target"));
+            AddSuffix("SETTARGETVESSEL",
+                new TwoArgsSuffix<PartValue, VesselTarget>(RASetTargetVessel, "Set an real antenna target"));
         }
-        
+
         public override BooleanValue Available()
         {
             return true;
@@ -45,7 +45,7 @@ namespace KOS_RA.Addon
         {
             var module = part.Part.FindModuleImplementing<ModuleRealAntenna>();
             var body = FlightGlobals.GetBodyByName(target);
-            
+
             if (module != null && body != null)
             {
                 var antennaTargetNode = new ConfigNode(AntennaTarget.nodeName);
